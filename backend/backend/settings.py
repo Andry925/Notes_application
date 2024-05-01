@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ DATABASES = {
         'PORT': config('PORT'),
     }
 }
+AUTH_USER_MODEL = 'accounts.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
