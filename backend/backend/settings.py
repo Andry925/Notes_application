@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'colorfield',
     'category',
+    'notes',
 ]
 
 MIDDLEWARE = [
