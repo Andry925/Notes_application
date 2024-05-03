@@ -16,10 +16,10 @@ class ManageCategoryView(APIView):
         return Response(serializer.data, status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = CategorySerializer(data=request.data, context={'current_user': request.user})
+        serializer = CategorySerializer(
+            data=request.data, context={
+                'current_user': request.user})
         if serializer.is_valid(raise_exception=True):
             serializer.save(owner=request.user)
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-
