@@ -43,3 +43,13 @@ class PrimaryKeyNoteView(APIView):
         current_note = Note.objects.get(pk=pk)
         current_note.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ArchivedNotesView(APIView):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        notes = Note.objects.filter(is_archived=True)
+        serializer = NoteSerializer(notes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
