@@ -25,7 +25,6 @@ class NoteSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         current_user = self.context.get('current_user')
         filter_criteria = validated_data.get('category').get('name')
-        print(filter_criteria)
         category_obj = Category.objects.get(
             name=filter_criteria, owner=current_user)
         instance.notes_text = validated_data.get('notes_text')
