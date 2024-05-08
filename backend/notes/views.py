@@ -1,9 +1,13 @@
+from django_filters import rest_framework as rest_filters
+from rest_framework import filters
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.authentication import TokenAuthentication
 from . models import Note
 from . serializers import NoteSerializer
+from .filters import NoteFilter
 
 
 class NonPrimaryKeyNoteView(APIView):
@@ -53,3 +57,23 @@ class ArchivedNotesView(APIView):
         notes = Note.objects.filter(is_archived=True)
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class FilterNotesView(generics.ListAPIView):
+    serializer_class = NoteSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [
+        rest_filters.DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    ordering_fields = [
+        'created_at',
+        'words_in_note',
+        'words_in_note',
+        'unique_words_in_note']
+    filterset_class = NoteFilter
+
+    def get_queryset(self):
+        current_user = self.request.user
+        return Note.objects.filter(owner=current_user)
