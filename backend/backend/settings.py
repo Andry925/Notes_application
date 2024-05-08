@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'colorfield',
     'category',
     'notes',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
