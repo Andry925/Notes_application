@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log('Login Details:', { email, password });
+    axios.post('http://localhost:8000/api/login/', { email, password })
+      .then(response => {
+        console.log('Login successful', response.data);
+        localStorage.setItem('token', response.data.token);
+        alert('You are logged in!');
+        navigate('/home');
+      })
+      .catch(error => {
+        console.error('Login failed:', error.response.data);
+        alert('Login failed!');
+      });
   };
 
   return (
