@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ function RegistrationPage() {
     email: '',
     password: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -17,14 +20,14 @@ function RegistrationPage() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     axios.post('http://localhost:8000/api/register/', formData)
       .then(response => {
         console.log('Registration successful:', response.data);
+        navigate('/login');
       })
       .catch(error => {
         console.error('Error registering:', error);
-
       });
   };
 
