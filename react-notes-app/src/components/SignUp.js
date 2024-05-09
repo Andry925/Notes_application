@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import axios
 
 function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -16,8 +17,15 @@ function RegistrationPage() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Form Data Submitted:', formData);
+    event.preventDefault()
+    axios.post('http://localhost:8000/api/register/', formData)
+      .then(response => {
+        console.log('Registration successful:', response.data);
+      })
+      .catch(error => {
+        console.error('Error registering:', error);
+
+      });
   };
 
   return (
