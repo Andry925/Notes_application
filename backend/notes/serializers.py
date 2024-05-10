@@ -8,7 +8,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('category', 'notes_text', 'is_archived')
+        fields = ('category', 'notes_text', 'is_archived','id')
 
     def create(self, validated_data):
         current_user = self.context.get('current_user')
