@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  backend:
+    volumes:
+      - static:/static
+    env_file:
+      - backend/backend/.env
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - my-postgres
+
+  react-notes-app:
+    build:
+      context: ./react-notes-app
+    volumes:
+      - react-notes-app:/app/build
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - static:/static
+      - react-notes-app:/var/www/react-notes-app
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - react-notes-app
+
+  my-postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=django
+      - POSTGRES_HOST=my-postgres
+
+volumes:
+  static:
+  react-notes-app:
