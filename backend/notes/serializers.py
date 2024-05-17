@@ -4,11 +4,11 @@ from .models import Category
 
 
 class NoteSerializer(serializers.ModelSerializer):
-    category = serializers.CharField(source='category.name')
+    category = serializers.CharField()
 
     class Meta:
         model = Note
-        fields = ('category', 'notes_text', 'is_archived','id')
+        fields = ('category', 'notes_text', 'is_archived', 'id')
 
     def create(self, validated_data):
         current_user = self.context.get('current_user')
@@ -24,7 +24,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         current_user = self.context.get('current_user')
-        filter_criteria = validated_data.get('category').get('name')
+        filter_criteria = validated_data.get('category')
         category_obj = Category.objects.get(
             name=filter_criteria, owner=current_user)
         instance.notes_text = validated_data.get('notes_text')

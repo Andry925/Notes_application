@@ -15,7 +15,8 @@ class NonPrimaryKeyNoteView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        notes = Note.objects.filter(owner=request.user)
+        notes = Note.objects.filter(
+            owner=request.user).select_related('category')
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
