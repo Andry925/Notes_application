@@ -4,7 +4,7 @@ from .models import Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    owner = serializers.CharField()
 
     class Meta:
         model = Category

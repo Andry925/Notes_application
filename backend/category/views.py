@@ -11,7 +11,8 @@ class ManageCategoryView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        queryset = Category.objects.filter(owner=request.user)
+        queryset = Category.objects.select_related(
+            "owner").filter(owner=request.user)
         serializer = CategorySerializer(queryset, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
 
