@@ -55,7 +55,8 @@ class ArchivedNotesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        notes = Note.objects.filter(is_archived=True)
+        notes = Note.objects.select_related(
+            "category").filter(is_archived=True)
         serializer = NoteSerializer(notes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -77,4 +78,5 @@ class FilterNotesView(generics.ListAPIView):
 
     def get_queryset(self):
         current_user = self.request.user
-        return Note.objects.filter(owner=current_user)
+        return Note.objects.select_related(
+            "category").filter(owner=current_user)
