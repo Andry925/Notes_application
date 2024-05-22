@@ -1,0 +1,19 @@
+{
+    "user_credentials": {
+        "username": "tester123",
+        "email": "test@gmail.com",
+        "password": "panel2004"
+    },
+
+    "category_data": {
+        "owner": null,
+        "name": "Test Category",
+        "color": "#FF6C6DFF"
+    },
+    "new_auction_data": {
+        "owner": null,
+        "name": "Test Category2",
+        "color": "#FF6C6DFF"
+    }
+
+}
